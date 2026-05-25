@@ -4,6 +4,8 @@ from src.env import env_settings
 
 
 class BitrixService:
+    REQUEST_TIMEOUT = 5
+
     # MARK: Deals
     @classmethod
     def get_deals(cls, filters: dict | None = None) -> list[dict]:
@@ -14,6 +16,7 @@ class BitrixService:
                 "filter": filters if filters else {},
                 "select": ["*"],
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -50,6 +53,7 @@ class BitrixService:
                     "UF_CRM_1777383408": company_id,
                 },
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -66,6 +70,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.item.update",
             json={"entityTypeId": 2, "id": deal_id, "fields": fields},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         return response.json().get("result", {})
@@ -75,6 +80,7 @@ class BitrixService:
         response = requests.get(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.contact.get",
             params={"ID": contact_id},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -88,6 +94,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.category.list",
             json=filters if filters else {},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -103,6 +110,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/user.search",
             json={"ID": id},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -118,6 +126,7 @@ class BitrixService:
         response = requests.get(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.company.get",
             params={"id": id},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -136,6 +145,7 @@ class BitrixService:
                 "filter": {"=ownerType": "D", "=ownerId": deal_id},
                 "select": ["*"],
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -154,6 +164,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/catalog.product.get",
             json={"id": product_id},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -192,6 +203,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.deal.productrows.set",
             json=data,
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -207,6 +219,7 @@ class BitrixService:
         response = requests.post(
             url=f"{env_settings.BITRIX_WEBHOOK_URL}/crm.timeline.icon.list",
             json={},
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         return response.json().get("result", {}).get("icons", [])
@@ -224,6 +237,7 @@ class BitrixService:
                     "iconCode": "sms",
                 },
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         return response.json().get("result", {})

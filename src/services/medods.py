@@ -13,6 +13,8 @@ from src.env import env_settings
 
 
 class MedodsService:
+    REQUEST_TIMEOUT = 5
+
     # MARK: Auth
     @staticmethod
     def _base64url_encode(raw: bytes) -> str:
@@ -76,6 +78,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -102,6 +105,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -127,6 +131,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -156,6 +161,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -183,6 +189,7 @@ class MedodsService:
                 headers={
                     "Authorization": f"Bearer {token}",
                 },
+                timeout=cls.REQUEST_TIMEOUT,
             )
             if response.status_code != 200:
                 return
@@ -228,6 +235,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -264,6 +272,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -306,6 +315,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -323,6 +333,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -338,6 +349,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -353,6 +365,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -377,6 +390,7 @@ class MedodsService:
             headers={
                 "Authorization": f"Bearer {token}",
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         print(json.dumps(response.json(), indent=4, ensure_ascii=False))

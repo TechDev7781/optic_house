@@ -11,6 +11,8 @@ from src.env import env_settings
 
 
 class ItigrisService:
+    REQUEST_TIMEOUT = 5
+
     default_headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -35,6 +37,7 @@ class ItigrisService:
                 "departmentId": department_id,
             },
             headers=cls.default_headers,
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -56,6 +59,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -81,6 +85,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -101,6 +106,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -165,6 +171,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 201:
@@ -186,6 +193,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -203,6 +211,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -219,6 +228,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
@@ -243,6 +253,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if not response.status_code == 200:
@@ -285,6 +296,7 @@ class ItigrisService:
                     "Authorization": f"Bearer {token}",
                     **cls.default_headers,
                 },
+                timeout=cls.REQUEST_TIMEOUT,
             )
 
             if not response.status_code == 200:
@@ -318,6 +330,7 @@ class ItigrisService:
             headers={
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if not response.status_code == 200:
@@ -351,6 +364,7 @@ class ItigrisService:
             headers={
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if not response.status_code == 200:
@@ -377,6 +391,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if not response.status_code == 200:
@@ -421,6 +436,7 @@ class ItigrisService:
                 "Authorization": f"Bearer {token}",
                 **cls.default_headers,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if not response.status_code == 200:
@@ -468,6 +484,7 @@ class ItigrisService:
                 "paidSum": price,
                 "goods": goods,
             },
+            timeout=cls.REQUEST_TIMEOUT,
         )
 
         if response.status_code != 200:
