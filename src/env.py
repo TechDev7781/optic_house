@@ -22,7 +22,7 @@ class EnvSettings:
     MEDODS_LOGIN = str(os.getenv("MEDODS_LOGIN"))
     MEDODS_PASSWORD = str(os.getenv("MEDODS_PASSWORD"))
 
-    IS_LINUX_SERVER = bool(os.getenv("IS_LINUX_SERVER") or False)
+    IS_LINUX_SERVER = bool(int(os.getenv("IS_LINUX_SERVER")) or False)
 
 
 env_settings = EnvSettings()
