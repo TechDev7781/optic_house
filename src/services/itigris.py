@@ -146,6 +146,8 @@ class ItigrisService:
     ):
         gender = True if gender == "MALE" else False
 
+        print(birthday_day, birthday_year, birthday_month)
+
         if birthday_day is None:
             birthday_day = 1
         if birthday_year is None:

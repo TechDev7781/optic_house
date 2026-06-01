@@ -564,6 +564,31 @@ class IntegrationService:
                                 print(
                                     f"Результат обновления сделки {deal_id}: {json.dumps(result, indent=4, ensure_ascii=False)}"
                                 )
+
+                                new_category_id = None
+                                for category in categories:
+                                    if category.get("name") == "Сервисный центр":
+                                        new_category_id = category.get("id")
+                                        break
+
+                                if not new_category_id:
+                                    print("Категория 'Сервисный центр' не найдена")
+                                    continue
+
+                                products = BitrixService.get_products(deal_id, all=True)
+
+                                result = BitrixService.create_deal(
+                                    title=found_deal.get("title"),
+                                    category_id=new_category_id,
+                                    stage_id="C11:NEW",
+                                    contact_id=found_deal.get("contact", {}).get("ID"),
+                                    company_id=found_deal.get("ufCrm_1777383408"),
+                                    products=products,
+                                )
+
+                                print(
+                                    f"Ответ от битрикса при создании сделки в новой воронке: {json.dumps(result, indent=4, ensure_ascii=False)}"
+                                )
                             else:
                                 print(
                                     f"Сделка Bitrix для клиента {client['phone']} не найдена"
@@ -682,7 +707,6 @@ class IntegrationService:
                     for order in orders:
                         try:
                             if order["id"] in explored_ids[status]:
-                                print(f"Заказ {order['id']} уже обработан, пропуск")
                                 continue
 
                             explored_ids[status].append(order["id"])
