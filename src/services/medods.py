@@ -268,6 +268,7 @@ class MedodsService:
                 "appointmentTypeId": 1,
                 "appointmentSourceId": 1,
                 "entryTypeIds": [int(product_id)],
+                "callConfirmationStatus": "confirmed",
             },
             headers={
                 "Authorization": f"Bearer {token}",
