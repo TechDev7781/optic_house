@@ -284,6 +284,26 @@ class MedodsService:
         return response.json()["id"]
 
     @classmethod
+    def update_record_to_confirmed(cls, token: str, record_id: int) -> None:
+        response = requests.patch(
+            url=f"{MEDODS_URL}/appointments/{record_id}",
+            json={
+                "status": "approved",
+            },
+            headers={
+                "Authorization": f"Bearer {token}",
+            },
+            timeout=cls.REQUEST_TIMEOUT,
+        )
+
+        if response.status_code != 200:
+            raise Exception(
+                f"Ошибка при создании записи: {response.text}, статус: {response.status_code}"
+            )
+
+        return response.json()["id"]
+
+    @classmethod
     def get_records(
         cls, token: str, updated_at: datetime, status: str = "billed"
     ) -> list[dict]:

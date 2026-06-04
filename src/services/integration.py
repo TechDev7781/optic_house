@@ -119,7 +119,6 @@ class IntegrationService:
                                 ServiceTypeEnum.MEDODS,
                             ]:
                                 try:
-                                    # MARK: Itigris
                                     if service_type_enum == ServiceTypeEnum.ITIGRIS:
                                         # Получение врача и услуги
                                         doctor_name = doctor.get("NAME") or ""
@@ -211,7 +210,6 @@ class IntegrationService:
                                                 if int(record.get("id", 0)) > max_id:
                                                     max_id = int(record.get("id", 0))
                                     elif service_type_enum == ServiceTypeEnum.MEDODS:
-                                        # MARK: Medods
                                         doctor_name = doctor.get("NAME") or ""
                                         doctor_last_name = doctor.get("LAST_NAME") or ""
                                         doctor_surname = doctor.get("SURNAME") or ""
@@ -287,13 +285,18 @@ class IntegrationService:
                                                 )
 
                                         # Создание записи в Medods
-                                        MedodsService.create_record(
+                                        id = MedodsService.create_record(
                                             token=medods_token,
                                             client_id=client_id,
                                             time=date,
                                             doctor_id=doctor_id,
                                             product_id=product_id,
                                             departament_id=departament_id,
+                                        )
+
+                                        MedodsService.update_record_to_confirmed(
+                                            token=medods_token,
+                                            record_id=id,
                                         )
 
                                     print(
