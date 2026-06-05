@@ -66,8 +66,8 @@ class IntegrationService:
 
                     for deal in deals:
                         try:
-                            # if deal["id"] in explored_ids[status]:
-                            #     continue
+                            if deal["id"] in explored_ids[status]:
+                                continue
 
                             doctor = BitrixService.get_doctor(
                                 deal.get("ufCrm_1777383278")
@@ -112,6 +112,7 @@ class IntegrationService:
                                 f"product={product.get('productName')}, department={departament.get('TITLE')}, date={date}, phone={phone_number}, "
                                 f"fio={first_name} {second_name} {last_name}"
                             )
+                            service_errors: list[str] = []
                             for service_type_enum in [
                                 ServiceTypeEnum.ITIGRIS,
                                 ServiceTypeEnum.MEDODS,
@@ -304,19 +305,24 @@ class IntegrationService:
                                     print(
                                         f"Ошибка при обработке сделки {deal['id']}: {e}"
                                     )
-                                    if deal["id"] not in explored_ids[status]:
-                                        BitrixService.add_log(
-                                            deal["id"],
-                                            "Ошибка при обработке сделки для системы {service_type_enum.value}",
-                                            f"Ошибка при обработке сделки {deal['id']} для системы {service_type_enum.value}: {e}",
-                                        )
+                                    service_errors.append(
+                                        f"{service_type_enum.value}: {e}"
+                                    )
                                     continue
 
-                            BitrixService.add_log(
-                                deal["id"],
-                                "Сделка перенесена в системы битрикс и медодс",
-                                "Сделка перенесена в системы битрикс и медодс",
-                            )
+                            if service_errors:
+                                BitrixService.add_log(
+                                    deal["id"],
+                                    "Ошибка",
+                                    f"Ошибка при обработке сделки {deal['id']}: "
+                                    + "; ".join(service_errors),
+                                )
+                            else:
+                                BitrixService.add_log(
+                                    deal["id"],
+                                    "Успех",
+                                    "Сделка перенесена в системы битрикс и медодс",
+                                )
                         except Exception as e:
                             print(f"Ошибка при обработке сделок: {e}")
                         finally:
