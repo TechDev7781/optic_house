@@ -66,10 +66,8 @@ class IntegrationService:
 
                     for deal in deals:
                         try:
-                            if deal["id"] in explored_ids[status]:
-                                continue
-
-                            explored_ids[status].append(deal["id"])
+                            # if deal["id"] in explored_ids[status]:
+                            #     continue
 
                             doctor = BitrixService.get_doctor(
                                 deal.get("ufCrm_1777383278")
@@ -303,15 +301,15 @@ class IntegrationService:
                                         f"Сделка {deal['id']} обработана успешно для системы {service_type_enum.value}"
                                     )
                                 except Exception as e:
-                                    explored_ids[status].remove(deal["id"])
                                     print(
                                         f"Ошибка при обработке сделки {deal['id']}: {e}"
                                     )
-                                    BitrixService.add_log(
-                                        deal["id"],
-                                        "Ошибка при обработке сделки для системы {service_type_enum.value}",
-                                        f"Ошибка при обработке сделки {deal['id']} для системы {service_type_enum.value}: {e}",
-                                    )
+                                    if deal["id"] not in explored_ids[status]:
+                                        BitrixService.add_log(
+                                            deal["id"],
+                                            "Ошибка при обработке сделки для системы {service_type_enum.value}",
+                                            f"Ошибка при обработке сделки {deal['id']} для системы {service_type_enum.value}: {e}",
+                                        )
                                     continue
 
                             BitrixService.add_log(
@@ -321,6 +319,8 @@ class IntegrationService:
                             )
                         except Exception as e:
                             print(f"Ошибка при обработке сделок: {e}")
+                        finally:
+                            explored_ids[status].append(deal["id"])
                 elif status == AppointmentStatusEnum.ACCEPTED:
                     medods_token = MedodsService.login()
 
@@ -827,10 +827,8 @@ class IntegrationService:
 
                     for deal in deals:
                         try:
-                            if deal["id"] in explored_ids[status]:
-                                continue
-
-                            explored_ids[status].append(deal["id"])
+                            # if deal["id"] in explored_ids[status]:
+                            #     continue
 
                             client = deal["contact"]
                             if not client:
@@ -887,7 +885,6 @@ class IntegrationService:
                                     )
                                     continue
 
-                                print(f"section: {full_p['iblockSectionId']}")
                                 if full_p["iblockSectionId"] == 103:
                                     goods.append(
                                         {
@@ -1051,12 +1048,14 @@ class IntegrationService:
                             print(
                                 f"Ошибка при создании заказа для сделки {deal['id']}: {e}"
                             )
-                            explored_ids[status].remove(deal["id"])
-                            BitrixService.add_log(
-                                deal["id"],
-                                "Ошибка при создании заказа для системы Itigris",
-                                f"Ошибка при создании заказа для сделки {deal['id']} для системы Itigris: {e}",
-                            )
+                            if deal["id"] not in explored_ids[status]:
+                                BitrixService.add_log(
+                                    deal["id"],
+                                    "Ошибка при создании заказа для системы Itigris",
+                                    f"Ошибка при создании заказа для сделки {deal['id']} для системы Itigris: {e}",
+                                )
+                        finally:
+                            explored_ids[status].append(deal["id"])
                 elif status == ServiceStatusEnum.ACCEPTED:
                     orders = ItigrisService.get_orders(
                         token=itigris_token,
