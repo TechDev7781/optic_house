@@ -833,8 +833,8 @@ class IntegrationService:
 
                     for deal in deals:
                         try:
-                            # if deal["id"] in explored_ids[status]:
-                            #     continue
+                            if deal["id"] in explored_ids[status]:
+                                continue
 
                             client = deal["contact"]
                             if not client:
